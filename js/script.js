@@ -46,14 +46,13 @@ let counter = 0;
 let selectionArr = [];
 
 const compareCards = event => {
-  console.log(selectionArr);
   if (selectionArr.length === 2) {
     //checking for unique class name
     //(-7 and -8 from this.length meens - delete class rotate, that adds by fn rotateCard)
     selectionArr[0].slice(0, this.length - 7) === selectionArr[1].slice(0, this.length - 8) ||
     selectionArr[0].slice(0, this.length - 8) === selectionArr[1].slice(0, this.length - 7)
-      ? (console.log('match'), hideAfterCorrectSelection())
-      : setTimeout(defaultCardsPosition, 1000);
+      ? hideAfterCorrectSelection()
+      : setTimeout(defaultCardsPosition, 800);
     return (selectionArr = []);
   }
 };
@@ -86,26 +85,40 @@ const showGameScore = () => {
   return (gameScore.textContent = `Your score is: ${counter}`);
 };
 
-const showGameResult = () => {
-  gameResult.classList.toggle('hide');
+const generateGameResultMassage = () => {
   return counter === 12
-    ? (gameResult.innerHTML = `<p><strong>Congratulations!</strong></p>
-  Your result is: ${counter}`)
-    : (gameResult.innerHTML = `<p><strong>Your are lucky!!!</strong></p>It's the best result!`);
+    ? (gameResult.innerHTML = `<p><strong>Your are lucky!!!</strong></p>It's the best result!`)
+    : (gameResult.innerHTML = `<p><strong>Congratulations!</strong></p>
+    Your result is: ${counter}`);
+};
+
+const showGameResult = () => {
+  let resultArr = [];
+  for (let i = 0; i < cards.length; i++) {
+    resultArr.push(cards[i].classList.contains('hidden'));
+  }
+  if (
+    resultArr.reduce((current, next) => {
+      if (current === next) {
+        return next;
+      }
+      return false;
+    })
+  ) {
+    gameResult.classList.toggle('hide');
+    generateGameResultMassage();
+    setTimeout(() => window.location.reload(), 10000);
+  }
 };
 
 content.addEventListener('click', event => {
   rotateCard(event);
   compareCards();
   showGameScore();
-  console.log(cards);
-  // if (cards.forEach(element => {
-  //   element.classList.contains('hidden')?
-  // });)
+  showGameResult();
 });
 
-// defaultButton.addEventListener('click', showGameResult);
-
+// reload tab
 gameResult.addEventListener('click', () => {
-  gameResult.classList.toggle('hide');
+  window.location.reload();
 });
