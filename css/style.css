@@ -15,6 +15,7 @@ body {
 
 .title {
   text-align: center;
+  font-size: 1.6em;
   width: 80%;
   font-family: Candara;
   mix-blend-mode: color-dodge;
@@ -30,8 +31,8 @@ body {
 }
 
 .card {
-  width: 100px;
-  height: 150px;
+  width: 20%;
+  height: 90px;
   border: 1px solid grey;
   border-radius: 5px;
   margin: 5px;
@@ -45,13 +46,11 @@ body {
 }
 
 .front {
-  background: url('../img/background_card_front.png'), blue;
+  background: url('../img/background_card_front.png');
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 5px;
-  width: inherit;
-  height: inherit;
   z-index: 2;
   transform: rotateY(0deg);
 }
@@ -61,14 +60,14 @@ body {
 }
 
 .back {
-  color: white;
+  /* width: inherit; */
   border-radius: 5px;
   transform: rotateY(180deg);
 }
 
 .front,
 .back {
-  width: inherit;
+  width: 100%;
   height: inherit;
   backface-visibility: hidden;
   position: absolute;
@@ -88,7 +87,8 @@ body {
 }
 
 .gameScore {
-  font-size: 2em;
+  padding-top: 20px;
+  font-size: 1.6em;
   font-family: Candara;
   mix-blend-mode: color-dodge;
   color: lightsalmon;
@@ -100,7 +100,7 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.9);
   color: white;
-  font-size: 3em;
+  font-size: 1.8em;
   text-align: center;
   padding-top: 150px;
 }
@@ -110,26 +110,54 @@ body {
 }
 
 /**Images content **/
-.card_poroshenko {
+.card_poroshenko,
+.card_poroshenko2 {
   background-image: url('../img/card_poroshenko.jpg');
 }
 
-.card_timoshenko {
+.card_timoshenko,
+.card_timoshenko2 {
   background-image: url('../img/card_timoshenko.jpg');
 }
 
-.card_grycenko {
+.card_grycenko,
+.card_grycenko2 {
   background-image: url('../img/card_grycenko.jpg');
 }
 
-.card_zelenskyi {
+.card_zelenskyi,
+.card_zelenskyi2 {
   background-image: url('../img/card_zelenskyi.jpg');
 }
 
-.card_liashko {
+.card_liashko,
+.card_liashko2 {
   background-image: url('../img/card_liashko.jpg');
 }
 
-.card_vaider {
+.card_vaider,
+.card_vaider2 {
   background-image: url('../img/card_vaider.jpg');
+}
+
+@media screen and (min-width: 359px) {
+  .card {
+    height: 120px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .card {
+    height: 150px;
+  }
+
+  .title {
+    font-size: 2em;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .title {
+    font-size: 2.5em;
+  }
 }
