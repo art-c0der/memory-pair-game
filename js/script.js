@@ -12,12 +12,12 @@ const imagesForCards = [
   'card_zelenskyi',
   'card_liashko',
   'card_vaider',
-  'card_poroshenko',
-  'card_timoshenko',
-  'card_grycenko',
-  'card_zelenskyi',
-  'card_liashko',
-  'card_vaider'
+  'card_poroshenko2',
+  'card_timoshenko2',
+  'card_grycenko2',
+  'card_zelenskyi2',
+  'card_liashko2',
+  'card_vaider2'
 ];
 
 //shuffle items in array
@@ -42,13 +42,16 @@ processCardsContent(cards, Shuffle(imagesForCards));
 //counter for score
 let counter = 0;
 
-//array for co
+//array for comparing
 let selectionArr = [];
 
 const compareCards = event => {
   console.log(selectionArr);
   if (selectionArr.length === 2) {
-    selectionArr[0] === selectionArr[1]
+    //checking for unique class name
+    //(-7 and -8 from this.length meens - delete class rotate, that adds by fn rotateCard)
+    selectionArr[0].slice(0, this.length - 7) === selectionArr[1].slice(0, this.length - 8) ||
+    selectionArr[0].slice(0, this.length - 8) === selectionArr[1].slice(0, this.length - 7)
       ? (console.log('match'), hideAfterCorrectSelection())
       : setTimeout(defaultCardsPosition, 1000);
     return (selectionArr = []);
@@ -85,17 +88,23 @@ const showGameScore = () => {
 
 const showGameResult = () => {
   gameResult.classList.toggle('hide');
-  return (gameResult.innerHTML = `<p><strong>Congratulations!</strong></p>
-  Your result is: ${counter}`);
+  return counter === 12
+    ? (gameResult.innerHTML = `<p><strong>Congratulations!</strong></p>
+  Your result is: ${counter}`)
+    : (gameResult.innerHTML = `<p><strong>Your are lucky!!!</strong></p>It's the best result!`);
 };
 
 content.addEventListener('click', event => {
   rotateCard(event);
   compareCards();
   showGameScore();
+  console.log(cards);
+  // if (cards.forEach(element => {
+  //   element.classList.contains('hidden')?
+  // });)
 });
 
-defaultButton.addEventListener('click', showGameResult);
+// defaultButton.addEventListener('click', showGameResult);
 
 gameResult.addEventListener('click', () => {
   gameResult.classList.toggle('hide');
