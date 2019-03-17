@@ -59,7 +59,7 @@ const compareCards = event => {
         setTimeout(() => {
           content.classList.remove('disabled');
           defaultCardsPosition();
-        }, 800);
+        }, 750);
     return (selectionArr = []);
   }
 };
@@ -95,7 +95,7 @@ const showGameScore = () => {
 const generateGameResultMassage = () => {
   return counter === 12
     ? (gameResult.innerHTML = `<p><strong>Your are lucky!!!</strong></p>It's the best result!`)
-    : (gameResult.innerHTML = `<p><strong>Congratulations!</strong></p>
+    : (gameResult.innerHTML = `<p><strong>You can better! Try again!</strong></p>
     Your result is: ${counter}`);
 };
 
