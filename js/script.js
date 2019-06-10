@@ -1,8 +1,9 @@
-const content = document.getElementById('content');
-const defaultButton = document.getElementById('defaultButton');
-const cards = document.getElementsByClassName('card');
-const gameScore = document.getElementById('gameScore');
-const gameResult = document.getElementById('gameResult');
+const content = document.querySelector('.content');
+const cards = Array.from(document.querySelectorAll('.card'));
+const gameScore = document.querySelector('.gameScore');
+const gameResult = document.querySelector('.gameResult');
+const gameResultTitle = document.querySelector('.gameResult__title');
+const gameResultMessage = document.querySelector('.gameResult__message');
 
 //arr wirh images (classes)
 const imagesForCards = [
@@ -21,19 +22,14 @@ const imagesForCards = [
 ];
 
 //shuffle items in array
-const Shuffle = arr => {
-  for (let j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
-  return arr;
-};
+const shuffle = arr => arr.sort(() => 0.5 - Math.random());
 
 //process cards content
 const processCardsContent = (arr, content) => {
-  for (let i = 0; i < arr.length; i++) {
-    arr[i].classList.add(content[i]);
-  }
+  arr.forEach((card, index) => card.classList.add(content[index]));
 };
 
-processCardsContent(cards, Shuffle(imagesForCards));
+processCardsContent(cards, shuffle(imagesForCards));
 
 //counter for score
 let counter = 0;
@@ -54,7 +50,7 @@ const compareCards = event => {
       : //allow content for clicking & rotate reverse cards
         setTimeout(() => {
           content.classList.remove('disabled');
-          defaultCardsPosition();
+          setDefaultCardsPosition();
         }, 750);
     return (selectionArr = []);
   }
@@ -72,48 +68,56 @@ const rotateCard = event => {
   }
 };
 
-const defaultCardsPosition = () => {
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].classList.contains('rotate') ? cards[i].classList.remove('rotate') : null;
-  }
+const setDefaultCardsPosition = () => {
+  cards.forEach(card =>
+    card.classList.contains('rotate') ? card.classList.remove('rotate') : null
+  );
 };
 
 const hideAfterCorrectSelection = () => {
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].classList.contains('rotate') ? cards[i].classList.add('hidden') : null;
-  }
+  cards.forEach(card =>
+    card.classList.contains('rotate') ? card.classList.add('visually-hidden') : null
+  );
 };
 
-const showGameScore = () => {
-  return (gameScore.textContent = `Your score is: ${counter}`);
-};
+const showGameScore = () => (gameScore.textContent = `Your score is: ${counter}`);
 
-const generateGameResultMassage = () => {
-  let resultMassage1 = [`Awesome`, `It's the best result!`, `Your are lucky!!!`];
-  let resultMassage2 = [`Congratulation!`, `Your result is: ${counter}`, `For improving, please, try again!`];
-  let resultMassage3 = [`You can better!`, `Your result is: ${counter}`, `Try again!`];
-  for (let i = 0; i < 3; i++) {
-    if (counter === 12) gameResult.children[i].textContent = resultMassage1[i];
-    else if (counter > 12 && counter <= 20) gameResult.children[i].textContent = resultMassage2[i];
-    else gameResult.children[i].textContent = resultMassage3[i];
+const generateGameResultMessage = () => {
+  let messages = [
+    {
+      title: `Awesome!`,
+      message: `It's the best result!\n Your are lucky!!!`
+    },
+    {
+      title: `Congratulation!`,
+      message: `Your result is: ${counter}\n For improving, please, try again!`
+    },
+    {
+      title: `You can better!`,
+      message: `You can better!\n Your result is: ${counter}\n Try again!`
+    }
+  ];
+
+  if (counter === 12) {
+    gameResultTitle.textContent = messages[0].title;
+    gameResultMessage.textContent = messages[0].message;
+  } else if (counter > 12 && counter <= 20) {
+    gameResultTitle.textContent = messages[1].title;
+    gameResultMessage.textContent = messages[1].message;
+  } else {
+    gameResultTitle.textContent = messages[2].title;
+    gameResultMessage.textContent = messages[2].message;
   }
 };
 
 const showGameResult = () => {
   let resultArr = [];
-  for (let i = 0; i < cards.length; i++) {
-    resultArr.push(cards[i].classList.contains('hidden'));
-  }
-  if (
-    resultArr.reduce((current, next) => {
-      if (current === next) {
-        return next;
-      }
-      return false;
-    })
-  ) {
-    gameResult.classList.toggle('hide');
-    generateGameResultMassage();
+
+  cards.forEach(card => resultArr.push(card.classList.contains('visually-hidden')));
+
+  if (resultArr.reduce((current, next) => (current === next ? next : false))) {
+    gameResult.classList.toggle('hidden');
+    generateGameResultMessage();
     setTimeout(() => window.location.reload(), 7000);
   }
 };
