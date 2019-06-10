@@ -19,8 +19,7 @@ body {
   font-size: 1.6em;
   width: 80%;
   font-family: Candara;
-  mix-blend-mode: color-dodge;
-  color: lightsalmon;
+  color: yellow;
 }
 
 .content {
